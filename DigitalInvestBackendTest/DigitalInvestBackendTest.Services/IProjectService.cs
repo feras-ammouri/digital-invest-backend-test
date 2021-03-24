@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DigitalInvestBackendTest.Services
 {
-    public interface IFundingService
+    public interface IProjectService
     {
         Task<IEnumerable<Project>> GetAllProjects();
 

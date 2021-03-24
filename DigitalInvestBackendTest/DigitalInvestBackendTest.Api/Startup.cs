@@ -28,7 +28,7 @@ namespace DigitalInvestBackendTest.Api
             services.AddDbContext<DigitalInvestDbContext>(options =>
               options.UseSqlServer(connectionString));
 
-            services.AddTransient<IFundingService,FundingService>();
+            services.AddTransient<IProjectService,ProjectService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

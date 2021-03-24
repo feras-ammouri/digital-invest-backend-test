@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace DigitalInvestBackendTest.Services
 {
-    public class FundingService : IFundingService
+    public class ProjectService : IProjectService
     {
         private DigitalInvestDbContext _digitalInvestDbContext;
 
         /// <summary>
-        /// Constructor, initializes an instance of <see cref="FundingService"/>
+        /// Constructor, initializes an instance of <see cref="ProjectService"/>
         /// </summary>
         /// <param name="digitalInvestDbContext"> An instance of <see cref="DigitalInvestDbContext"/></param>
-        public FundingService(DigitalInvestDbContext digitalInvestDbContext)
+        public ProjectService(DigitalInvestDbContext digitalInvestDbContext)
         {
             _digitalInvestDbContext = digitalInvestDbContext;
         }

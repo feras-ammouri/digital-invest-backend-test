@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DigitalInvestBackendTest.Api\DigitalInvestBackendTest.Api.csproj" />
     <ProjectReference Include="..\DigitalInvestBackendTest.Data\DigitalInvestBackendTest.Data.csproj" />
     <ProjectReference Include="..\DigitalInvestBackendTest.Services\DigitalInvestBackendTest.Services.csproj" />
   </ItemGroup>

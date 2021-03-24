@@ -13,21 +13,21 @@ namespace DigitalInvestBackendTest.Api.Controllers
     [ApiController]
     public class ProjectsController : Controller
     {
-        private IFundingService _fundingService;
+        private IProjectService _projectService;
 
         /// <summary>
         /// Constructor, initializes an instance of <see cref="ProjectsController"/>
         /// </summary>
-        /// <param name="fundingService">An instance of <see cref="IFundingService"/></param>
-        public ProjectsController(IFundingService fundingService)
+        /// <param name="projectService">An instance of <see cref="IProjectService"/></param>
+        public ProjectsController(IProjectService projectService)
         {
-            _fundingService = fundingService;
+            _projectService = projectService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllProjects()
         {
-            var projectsList = await _fundingService.GetAllProjects();
+            var projectsList = await _projectService.GetAllProjects();
 
             if (projectsList.Count() == 0)
             {
@@ -59,14 +59,14 @@ namespace DigitalInvestBackendTest.Api.Controllers
             };
 
             // Check if there is only one investment amount for the project
-            if (await _fundingService.CheckIfTheInvestmentExist(funding))
+            if (await _projectService.CheckIfTheInvestmentExist(funding))
             {
                 return Conflict("You can only submit an amount once per funding");
             }
 
             try
             {
-                await _fundingService.SubmitInvestment(funding);
+                await _projectService.SubmitInvestment(funding);
             }
             catch (Exception)
             {
@@ -74,13 +74,6 @@ namespace DigitalInvestBackendTest.Api.Controllers
             }
 
             return Ok();
-        }
-
-
- 
-        public IActionResult Index()
-        {
-            return View();
         }
     }
 }
