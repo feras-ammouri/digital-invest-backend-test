@@ -121,13 +121,6 @@ namespace DigitalInvestBackendTest.UnitTests
                 InvestmentAmount = 1000
             };
 
-            var funding = new Funding()
-            {
-                ProjectId = createFundingModel.ProjectId,
-                InvestorId = createFundingModel.InvestorId,
-                InvestmentAmount = createFundingModel.InvestmentAmount
-            };
-
             _projectService.Setup(x => x.CheckIfTheInvestmentExist(It.IsAny<Funding>())).ReturnsAsync(false);
 
             var submitInvestmentResult = await _projectsController.SubmitInvestment(createFundingModel);
