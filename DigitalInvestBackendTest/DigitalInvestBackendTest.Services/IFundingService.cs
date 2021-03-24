@@ -9,5 +9,9 @@ namespace DigitalInvestBackendTest.Services
     public interface IFundingService
     {
         Task<IEnumerable<Project>> GetAllProjects();
+
+        Task<bool> CheckIfTheInvestmentExist(Funding funding);
+
+        Task SubmitInvestment(Funding funding);
     }
 }

@@ -36,24 +36,22 @@ namespace DigitalInvestBackendTest.Services
                                           group new { project, funding } by new {funding.ProjectId} into g
                                           select new 
                                           {
-                                              Id = g.First().project.Id,
-                                              Name = g.First().project.Name,
-                                              AssetClass = g.First().project.AssetClass,
-                                              TotalVolum = g.First().project.TotalVolum,
-                                              AlreadyInvested = g.Sum(x=>x.funding.InvestmentAmount),
-                                              Description = g.First().project.Description
+                                              Id = g.Key.ProjectId,
+                                              AlreadyInvested = g.Sum(x=>x.funding.InvestmentAmount)
                                           }).ToListAsync();
 
             var projectsList = new List<Project>();
             foreach (var dbProject in dbProjectsList)
             {
+                var projectEntity = _digitalInvestDbContext.Projects.Where(x => x.Id == dbProject.Id).FirstOrDefault();
+
                 var project = new Project()
                 {
                     Id = dbProject.Id,
-                    Name = dbProject.Name,
-                    AssetClass = dbProject.AssetClass,
-                    TotalVolum = dbProject.TotalVolum,
-                    Description = dbProject.Description,
+                    Name = projectEntity.Name,
+                    AssetClass = projectEntity.AssetClass,
+                    TotalVolum = projectEntity.TotalVolum,
+                    Description = projectEntity.Description,
                     AlreadyInvested = dbProject.AlreadyInvested
                 };
 
@@ -61,6 +59,33 @@ namespace DigitalInvestBackendTest.Services
             }
 
             return projectsList;
+        }
+
+        public async Task<bool> CheckIfTheInvestmentExist(Funding funding)
+        {
+            var dbFunding = await (_digitalInvestDbContext.Fundings.Where(f => f.ProjectId == funding.ProjectId && f.InvestorId == funding.InvestorId)).FirstOrDefaultAsync();
+
+            if (dbFunding == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task SubmitInvestment(Funding funding)
+        {
+            var dbFunding = new Data.Entities.Funding()
+            {
+                Id = Guid.NewGuid(),
+                ProjectId = funding.ProjectId,
+                InvestorId = funding.InvestorId,
+                InvestmentAmount = funding.InvestmentAmount,
+                InvestmentDate = DateTime.Now
+            };
+
+            await _digitalInvestDbContext.AddAsync(dbFunding);
+            await _digitalInvestDbContext.SaveChangesAsync();
         }
     }
 }
