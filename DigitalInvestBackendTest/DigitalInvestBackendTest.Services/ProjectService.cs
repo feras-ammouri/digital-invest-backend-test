@@ -29,30 +29,20 @@ namespace DigitalInvestBackendTest.Services
         /// <returns>List of <see cref="Project"/></returns>
         public async Task<IEnumerable<Project>> GetAllProjects()
         {
-            // retrieve all fundings from the database
-            var dbProjectsList = await (from project in _digitalInvestDbContext.Projects
-                                          join funding in _digitalInvestDbContext.Fundings
-                                              on project.Id equals funding.ProjectId
-                                          group new { project, funding } by new {funding.ProjectId} into g
-                                          select new 
-                                          {
-                                              Id = g.Key.ProjectId,
-                                              AlreadyInvested = g.Sum(x=>x.funding.InvestmentAmount)
-                                          }).ToListAsync();
+            // retrieve all projects from the database
+            var projectEntitiesList = await _digitalInvestDbContext.Projects.ToListAsync();
 
             var projectsList = new List<Project>();
-            foreach (var dbProject in dbProjectsList)
+            foreach (var projectEntity in projectEntitiesList)
             {
-                var projectEntity = _digitalInvestDbContext.Projects.Where(x => x.Id == dbProject.Id).FirstOrDefault();
-
                 var project = new Project()
                 {
-                    Id = dbProject.Id,
+                    Id = projectEntity.Id,
                     Name = projectEntity.Name,
                     AssetClass = projectEntity.AssetClass,
                     TotalVolum = projectEntity.TotalVolum,
                     Description = projectEntity.Description,
-                    AlreadyInvested = dbProject.AlreadyInvested
+                    AlreadyInvested = (_digitalInvestDbContext.Fundings.Where(x=>x.ProjectId.Equals(projectEntity.Id)).Sum(x=>x.InvestmentAmount))
                 };
 
                 projectsList.Add(project);

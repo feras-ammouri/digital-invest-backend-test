@@ -7,8 +7,8 @@ services:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=1Secure*Password1
 
-  dockersqlserver:
-    image: dockersqlserver
+  digitalinvestbackendtest:
+    image: digitalinvestbackendtest
     build:
       context: .
       dockerfile: Dockerfile
