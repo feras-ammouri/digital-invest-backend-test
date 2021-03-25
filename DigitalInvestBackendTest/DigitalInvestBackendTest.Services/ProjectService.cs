@@ -61,8 +61,14 @@ namespace DigitalInvestBackendTest.Services
             return projectsList;
         }
 
+        /// <summary>
+        /// Checks if the funcding exists
+        /// </summary>
+        /// <param name="funding">An instance of <see cref="Funding"/></param>
+        /// <returns></returns>
         public async Task<bool> CheckIfTheInvestmentExist(Funding funding)
         {
+            // check if the funding exists in the db
             var dbFunding = await (_digitalInvestDbContext.Fundings.Where(f => f.ProjectId == funding.ProjectId && f.InvestorId == funding.InvestorId)).FirstOrDefaultAsync();
 
             if (dbFunding == null)
@@ -73,6 +79,11 @@ namespace DigitalInvestBackendTest.Services
             return true;
         }
 
+        /// <summary>
+        /// Submits a funding 
+        /// </summary>
+        /// <param name="funding">An instance of <see cref="Funding"/></param>
+        /// <returns></returns>
         public async Task SubmitInvestment(Funding funding)
         {
             var dbFunding = new Data.Entities.Funding()
@@ -84,6 +95,7 @@ namespace DigitalInvestBackendTest.Services
                 InvestmentDate = DateTime.Now
             };
 
+            // save the funding in the db
             await _digitalInvestDbContext.AddAsync(dbFunding);
             await _digitalInvestDbContext.SaveChangesAsync();
         }
