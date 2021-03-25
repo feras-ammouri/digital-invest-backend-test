@@ -124,7 +124,7 @@ namespace DigitalInvestBackendTest.UnitTests
             _projectService.Setup(x => x.CheckIfTheInvestmentExist(It.IsAny<Funding>())).ReturnsAsync(false);
 
             var submitInvestmentResult = await _projectsController.SubmitInvestment(createFundingModel);
-            Assert.IsType<OkObjectResult>(submitInvestmentResult);
+            Assert.IsType<OkResult>(submitInvestmentResult);
         }
 
     }
