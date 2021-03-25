@@ -29,7 +29,7 @@ namespace DigitalInvestBackendTest.Data.Entities
         /// <summary>
         /// The total volum of the project
         /// </summary>
-        [Column("total_volum")]
+        [Column("total_volum", TypeName = "decimal(18,2)")]
         public decimal TotalVolum { get; set; }
 
         /// <summary>

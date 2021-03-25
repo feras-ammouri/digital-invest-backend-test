@@ -29,7 +29,7 @@ namespace DigitalInvestBackendTest.Data.Entities
         /// <summary>
         /// The amount of the investment
         /// </summary>
-        [Column("investment_amount")]
+        [Column("investment_amount", TypeName = "decimal(18,2)")]
         public decimal InvestmentAmount { get; set; }
 
         /// <summary>
